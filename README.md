@@ -1,1 +1,1 @@
-# react-graphql
+# next-graphql
