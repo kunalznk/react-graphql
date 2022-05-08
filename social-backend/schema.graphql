@@ -1,0 +1,110 @@
+type User {
+  id: ID!
+  emailId: String!
+  username: String!
+  profilePic: String!
+  post: [Post!]
+  comment: [Comment!]
+}
+
+type Post {
+  postId: ID
+  title: String!
+  content: String!
+  user: User!
+  comment: [Comment!]
+}
+
+type Comment {
+  commentId: ID
+  comment: String
+  user: User!
+  post: Comment!
+}
+
+type UserFilterType {
+  username: String
+  emailId: String
+}
+
+type PostFilterType {
+  title: String
+  userId: ID
+}
+
+type CommentFilterType {
+  postId: ID
+  userId: ID
+}
+
+type createUserInput {
+  emailId: String!
+  username: String!
+  profilePic: String!
+  password: String!
+}
+
+type updateUserInput {
+  emailId: String
+  username: String
+  profilePic: String
+  password: String
+}
+
+type deleteUserInput {
+  id: ID!
+}
+
+type createPostInput {
+  userId: ID!
+  title: String
+  content: String
+}
+
+type updatePostInput {
+  postId: ID!
+  title: String
+  content: String
+}
+type deletePostInput {
+  postId: ID!
+}
+
+type createCommentInput {
+  postId: ID!
+  userId: ID!
+  comment: String!
+}
+
+type updateCommentInput {
+  commentId: ID!
+  comment: String!
+}
+type deleteCommentInput {
+  commentId: ID!
+}
+
+type Query {
+  user(id: ID!): User
+  users(userFilter: UserFilterType): [User]
+
+  post(id: ID!): Post
+  posts(postFilter: PostFilterType): [Post]
+
+  comment(id: ID!): Comment
+  comments(commentFilter: CommentFilterType): [Comment]
+}
+
+type Mutation {
+  createUser(input: createUserInput): User!
+  updateUser(input: updateUserInput): User!
+  deleteUser(input: deleteUserInput): Boolean!
+
+  createPost(input: createPostInput): User!
+  updatePost(input: updatePostInput): User!
+  deletePost(input: deletePostInput): Boolean!
+
+  createComment(input: createCommentInput): User!
+  updateComment(input: updateCommentInput): User!
+  deleteComment(input: deleteCommentInput): Boolean!
+}

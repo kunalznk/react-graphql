@@ -1,0 +1,24 @@
+{
+  "name": "social-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon dist/server.js",
+    "generate": "prisma generate",
+    "format": "npx prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "2.6.2",
+    "prisma": "^3.13.0",
+    "ts-node": "^10.7.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.13.0",
+    "apollo-server-express": "^3.6.4",
+    "graphql": "^16.3.0"
+  }
+}
