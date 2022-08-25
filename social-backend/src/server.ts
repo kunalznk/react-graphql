@@ -1,32 +1,36 @@
+import { verfiyToken } from './utils/common';
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import express from "express";
 import http from "http";
+import { readFileSync } from "fs"
+import { join } from "path"
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { applyMiddleware } from 'graphql-middleware';
 
-import typeDefs from "./schema";
-import Query from "./Resolvers/Query";
-import Mutation from "./Resolvers/Mutatation";
+const typeDefs = readFileSync(join(__dirname, "schema/schema.graphql") , "utf-8")
+import permissions from './utils/permission';
+// import typeDefs from "./schema";
 
-import User from "./Resolvers/User";
-import Post from "./Resolvers/Post";
-import Comment from "./Resolvers/Comment";
-
+import resolvers from "./resolvers";
 import prisma from "./db/prisma";
+
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
 
 const app = express();
 const httpServer = http.createServer(app);
+
 const server = new ApolloServer({
-  typeDefs,
-  resolvers: {
-    Mutation,
-    Query,
-    User,
-    Post,
-    Comment,
-  },
-  context: {
-    prisma,
-  },
+  schema : applyMiddleware(schema, permissions),
+  context: ( { req }) => { 
+    let user = null;
+    user = verfiyToken(req.headers.authorization!);
+    return {
+      prisma,
+      user 
+  }
+},
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
@@ -40,17 +44,24 @@ httpServer.listen({ port: process.env.PORT }, () => {
   );
 });
 
-const exec = async () => {
-  try {
-    const post = await prisma.post.create({
-      data: {
-        title: "post1",
-        content: "post content",
-        authorId: 1,
-      },
-    });
-  } catch (e) {
-    console.error(e);
-    // handleError()
-  }
-};
+// const exec = async () => {
+//   try {
+//     const post = await prisma.post.create({
+//       data: {
+//         title: "post1",
+//         content: "post content",
+//         authorId: 1,
+//       },
+//     });
+//   } catch (e) {
+//     console.error(e);
+//     // handleError()
+//   }
+// };
+
+
+// Adding s3 bucket for media
+//ploicy for s3 bucket
+// node mailer to send Mail
+
+
