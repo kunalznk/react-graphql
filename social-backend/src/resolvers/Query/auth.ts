@@ -1,7 +1,5 @@
-const login = () => {
-
-}
+const login = () => {};
 
 export default {
-    login
-}
+  login,
+};

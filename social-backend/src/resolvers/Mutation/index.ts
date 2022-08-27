@@ -1,5 +1,9 @@
 import authMutation from "./auth";
+import mediaMutation from "./minio";
+import userMutation from "./user";
 
 export default {
-    ...authMutation
-}
+  ...authMutation,
+  ...mediaMutation,
+  ...userMutation,
+};

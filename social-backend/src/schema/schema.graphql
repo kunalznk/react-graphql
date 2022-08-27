@@ -1,185 +1,182 @@
- scalar DateTime
- 
- type User {
-    id: ID
-    username: String!
-    fullName: String!
-    emailId: String!
-    profilePic: String
-    isPublic: Boolean
+scalar DateTime
 
-    follower: Int
-    following: Int
+type User {
+  id: ID
+  username: String!
+  fullName: String!
+  emailId: String!
+  profilePic: String
+  isPublic: Boolean
 
-    post: [Post!]
-    comment: [Comment!]
+  follower: Int
+  following: Int
 
-    token: String!
-  }
+  post: [Post!]
+  comment: [Comment!]
 
-  type Post {
-    id: ID!
-    title: String
-    content: String
-    mediaPath: String!
-    mediaFormat: String!
-    authorId: Int!
+  token: String!
+}
 
-    likes: Int
-    comments : String
-  }
+type Post {
+  id: ID!
+  title: String
+  content: String
+  mediaPath: String!
+  mediaFormat: String!
+  authorId: Int!
 
-  type Comment {
-    id: ID
-    comment: String
-    user: User!
-    post: Comment!
-  }
+  likes: Int
+  comments: String
+}
 
-  input UserFilterType {
-    username: String
-    fullName: String
-  }
+type Comment {
+  id: ID
+  comment: String
+  user: User!
+  post: Comment!
+}
 
-  input PostFilterType {
-    title: String
-    userId: ID
-  }
+input UserFilterType {
+  username: String
+  fullName: String
+}
 
-  input CommentFilterType {
-    postId: ID
-    userId: ID
-  }
+input PostFilterType {
+  title: String
+  userId: ID
+}
 
-  input createUserInput {
-    username: String!
-    fullName: String!
-    emailId: String!
-    password: String!
-    profilePic: String
-  }
+input CommentFilterType {
+  postId: ID
+  userId: ID
+}
 
-  input updateUserInput {
-    username: String
-    fullName: String
-    emailId: String
-    profilePic: String
-    isPublic: Boolean
-  }
+input createUserInput {
+  username: String!
+  fullName: String!
+  emailId: String!
+  password: String!
+  profilePic: String
+}
 
-  input deleteUserInput {
-    id: ID!
-  }
+input updateUserInput {
+  username: String
+  fullName: String
+  emailId: String
+  profilePic: String
+  isPublic: Boolean
+}
 
-  input loginInput {
-    username: String!
-    emailId: String
-    password: String!
-  }
+input deleteUserInput {
+  id: ID!
+}
 
-  input forgetPasswordInput {
-    emailId:String!
-  }
+input loginInput {
+  username: String!
+  emailId: String
+  password: String!
+}
 
-  input resetPasswordInput {
-    emailId:String!
-    userId: Int!
-    password: String!
-    confirmPass: String!
-    token: String!
-  }
-  
-  input followInput {
-    
-    followingId : Int!
-    status: Boolean
-  }
+input forgetPasswordInput {
+  emailId: String!
+}
 
-  type Media {
-    mediaGetPath: String!
-    mediaPostPath: String!
-    mediaFormat: String
-  }
+input resetPasswordInput {
+  emailId: String!
+  userId: Int!
+  password: String!
+  confirmPass: String!
+  token: String!
+}
 
-  input createMediaInput {
-    mediaGetPath: String!
-    mediaPostPath: String!
-    mediaFormat: String
-  }
+input followInput {
+  followingId: Int!
+  status: Boolean
+}
 
-  input createPostInput {
-    title: String
-    content: String
-    mediaPath: String!
-    mediaFormat: String!
-    tageUser: [Int!]!
-  }
+type Media {
+  mediaGetPath: String!
+  mediaPostPath: String!
+  mediaFormat: String
+}
 
-  input updatePostInput {
-    postId: ID!
-    title: String!
-    content: String!
-    tageUser: [Int!]!
-  }
+input createMediaInput {
+  mediaGetPath: String!
+  mediaPostPath: String!
+  mediaFormat: String
+}
 
-  input deletePostInput {
-    postId: ID!
-  }
+input createPostInput {
+  title: String
+  content: String
+  mediaPath: String!
+  mediaFormat: String!
+  tageUser: [Int!]!
+}
 
-  input likePostInput {
-    isLike: Boolean!
-    postId: ID!
-  }
+input updatePostInput {
+  postId: ID!
+  title: String!
+  content: String!
+  tageUser: [Int!]!
+}
 
-  input createCommentInput {
-    postId: ID!
-    userId: ID!
-    comment: String!
-  }
+input deletePostInput {
+  postId: ID!
+}
 
-  input updateCommentInput {
-    commentId: ID!
-    comment: String!
-  }
+input likePostInput {
+  isLike: Boolean!
+  postId: ID!
+}
 
-  input deleteCommentInput {
-    commentId: ID!
-  }
+input createCommentInput {
+  postId: ID!
+  userId: ID!
+  comment: String!
+}
 
-  type Query {
-    user(id: ID!): User
-    users(userFilter: UserFilterType): [User]
+input updateCommentInput {
+  commentId: ID!
+  comment: String!
+}
 
-    post(id: ID!): Post
-    posts(postFilter: PostFilterType): [Post]
+input deleteCommentInput {
+  commentId: ID!
+}
 
-    comment(id: ID!): Comment
-    comments(commentFilter: CommentFilterType): [Comment]
-  }
+type Query {
+  user(id: ID): User
+  users(userFilter: UserFilterType): [User]
 
-  type Mutation {
-    
-    register(input:createUserInput): Boolean!
-    login(input: loginInput): String
-    forgetPassword(input: forgetPasswordInput): Boolean!
-    resetPassword(input: resetPasswordInput): Boolean!
-    logout: Boolean
+  post(id: ID!): Post
+  posts(postFilter: PostFilterType): [Post]
 
-    follow(input: followInput): Boolean!
+  comment(id: ID!): Comment
+  comments(commentFilter: CommentFilterType): [Comment]
+}
 
-    createUser(input: createUserInput): User!
-    updateUser(input: updateUserInput): User!
-    deleteUser(input: deleteUserInput): Boolean!
+type Mutation {
+  register(input: createUserInput): Boolean!
+  login(input: loginInput): String
+  forgetPassword(input: forgetPasswordInput): Boolean!
+  resetPassword(input: resetPasswordInput): Boolean!
+  logout: Boolean
 
+  follow(input: followInput): Boolean!
 
-    createMediaUrl(input: createMediaInput): Media 
-    createPost(input: createPostInput): User!
-    updatePost(input: updatePostInput): User!
-    deletePost(input: deletePostInput): Boolean!
+  createUser(input: createUserInput): User
+  updateUser(input: updateUserInput): User
+  deleteUser(input: deleteUserInput): Boolean
 
-    likePost(input: likePostInput): Boolean!
+  createMediaUrl(input: createMediaInput): Media
+  createPost(input: createPostInput): User!
+  updatePost(input: updatePostInput): User!
+  deletePost(input: deletePostInput): Boolean!
 
-    createComment(input: createCommentInput): User!
-    updateComment(input: updateCommentInput): User!
-    deleteComment(input: deleteCommentInput): Boolean!
-  }
+  likePost(input: likePostInput): Boolean!
+
+  createComment(input: createCommentInput): User!
+  updateComment(input: updateCommentInput): User!
+  deleteComment(input: deleteCommentInput): Boolean!
+}

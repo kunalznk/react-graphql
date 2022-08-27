@@ -1,7 +1,7 @@
 import prisma from "../db/prisma";
 
 const Post = {
-  comment: (paren) => {
+  comments: (paren) => {
     return prisma.comment.findMany({
       where: {
         postId: paren.id,
